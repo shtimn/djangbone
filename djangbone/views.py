@@ -186,6 +186,6 @@ class BackboneAPIView(View):
 
         The form_errors argument contains the contents of form.errors, and you
         can override this method is you want to use a specific error response format.
-        By default, the output is a simple text response.
         """
-        return HttpResponse('<p>ERROR: validation failed</p>' + str(form_errors), status=400)
+        output = self.json_encoder.encode({"errors": form_errors})
+        return HttpResponse(output, content_type='application/json')
