@@ -178,7 +178,7 @@ class BackboneAPIView(View):
         """
         Convert json output to an HttpResponse object, with the correct mimetype.
         """
-        return HttpResponse(output, mimetype='application/json')
+        return HttpResponse(output, content_type='application/json')
 
     def validation_error_response(self, form_errors):
         """
