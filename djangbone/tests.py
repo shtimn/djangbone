@@ -138,7 +138,7 @@ class ViewTest(unittest.TestCase):
         # Test the case where invalid input is given (leading to form errors):
         request = self.factory.post('/users', '{"wrong_field": "xyz"}', content_type='application/json')
         response = self.writable_view(request)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 400)
         self.assertEqual(response.content, '{"errors": {"username": ["This field is required."]}}')
 
         # If valid JSON was provided, a new instance should be created:
@@ -178,7 +178,7 @@ class ViewTest(unittest.TestCase):
         # Test the case where invalid input is given (leading to form errors):
         request = self.factory.put('/users/1', '{"wrong_field": "xyz"}', content_type='application/json')
         response = self.writable_view(request, id='1')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 400)
         self.assertEqual(response.content, '{"errors": {"username": ["This field is required."]}}')
 
     def test_delete(self):

@@ -188,4 +188,4 @@ class BackboneAPIView(View):
         can override this method is you want to use a specific error response format.
         """
         output = self.json_encoder.encode({"errors": form_errors})
-        return HttpResponse(output, content_type='application/json')
+        return HttpResponse(output, content_type='application/json', status=400)
