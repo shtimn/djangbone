@@ -150,6 +150,12 @@ class BackboneAPIView(View):
         else:
             raise Http404
 
+    def qs_values_list(self, queryset):
+        """
+        Return list of values from queryset.
+        """
+        return queryset.values(*self.serialize_fields)
+
     def serialize_qs(self, queryset, single_object=False):
         """
         Serialize a queryset into a JSON object that can be consumed by backbone.js.
@@ -157,7 +163,7 @@ class BackboneAPIView(View):
         If the single_object argument is True, or the url specified an id, return a
         single JSON object, otherwise return a JSON array of objects.
         """
-        values = queryset.values(*self.serialize_fields)
+        values = self.qs_values_list(queryset)
         if single_object or self.kwargs.get('id'):
             # For single-item requests, convert ValuesQueryset to a dict simply
             # by slicing the first item:
@@ -173,6 +179,7 @@ class BackboneAPIView(View):
                 values = values[offset:offset+self.page_size]
             json_output = self.json_encoder.encode(list(values))
         return json_output
+
 
     def success_response(self, output):
         """
